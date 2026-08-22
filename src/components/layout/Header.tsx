@@ -16,7 +16,7 @@ export function Header() {
 
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm font-medium text-slate-600">
             <Link href="/calculadoras" className="hover:text-violet-700">
-              Calculadoras
+              Todas las calculadoras
             </Link>
             <Link href="/ajustes" className="hover:text-violet-700">
               Mi óptica
