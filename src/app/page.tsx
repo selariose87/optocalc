@@ -15,12 +15,12 @@ export default function HomePage() {
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 py-10 sm:px-6 lg:px-8">
       <section className="flex flex-col gap-4">
         <h1 className="max-w-2xl text-3xl font-bold text-slate-900 sm:text-4xl">
-          Calculadoras profesionales de optometría
+          Calculadoras profesionales de optometría y oftalmología
         </h1>
         <p className="max-w-2xl text-lg text-slate-600">
-          {CALCULATORS.length} calculadoras de prisma, potencia de lente, medidas, prescripción y
-          lentes de contacto, listas para usar en consulta. Genera un informe en PDF con el logo
-          de tu óptica en un solo clic.
+          {CALCULATORS.length} herramientas de cálculo clínico —prisma, potencia de lente,
+          prescripción, lentes de contacto y cirugía refractiva— pensadas para el uso diario en
+          consulta. Genera informes en PDF con la identidad de tu óptica en segundos.
         </p>
       </section>
 
