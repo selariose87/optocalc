@@ -15,7 +15,7 @@ export default function HomePage() {
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 py-10 sm:px-6 lg:px-8">
       <section className="flex flex-col gap-4">
         <h1 className="max-w-2xl text-3xl font-bold text-slate-900 sm:text-4xl">
-          Calculadoras profesionales de optometría, en español
+          Calculadoras profesionales de optometría
         </h1>
         <p className="max-w-2xl text-lg text-slate-600">
           {CALCULATORS.length} calculadoras de prisma, potencia de lente, medidas, prescripción y
