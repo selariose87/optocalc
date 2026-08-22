@@ -4,34 +4,46 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
 import { useOpticaSettings } from "@/hooks/useOpticaSettings";
+import { useInforme } from "@/lib/informe/InformeContext";
 import { descargarInformePdf } from "@/lib/pdf/generateReport";
 import type { OpticaSettings } from "@/lib/opticaSettings";
-import type { ReportField } from "@/lib/calculators/types";
 
-interface ReportModalProps {
-  calculatorTitle: string;
-  entradas: ReportField[];
-  resultados: ReportField[];
-  notas?: string[];
+interface InformeBuilderModalProps {
   onClose: () => void;
 }
 
-export function ReportModal({
-  calculatorTitle,
-  entradas,
-  resultados,
-  notas,
-  onClose,
-}: ReportModalProps) {
+export function InformeBuilderModal({ onClose }: InformeBuilderModalProps) {
+  const { items, removeItem, clearItems } = useInforme();
   const { settings, updateSettings } = useOpticaSettings();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(
+    () => new Set(items.map((item) => item.id))
+  );
   const [pacienteNombre, setPacienteNombre] = useState("");
   const [fecha, setFecha] = useState(() => new Date().toISOString().slice(0, 10));
   const [generando, setGenerando] = useState(false);
 
   function setField<K extends keyof OpticaSettings>(key: K, value: OpticaSettings[K]) {
     updateSettings({ ...settings, [key]: value });
+  }
+
+  function toggleSelected(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function handleRemove(id: string) {
+    removeItem(id);
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
   }
 
   function handleLogoChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -42,18 +54,24 @@ export function ReportModal({
     reader.readAsDataURL(file);
   }
 
+  const seleccionados = items.filter((item) => selectedIds.has(item.id));
+
   async function handleGenerar() {
+    if (seleccionados.length === 0) return;
     setGenerando(true);
     try {
       await descargarInformePdf({
-        calculatorTitle,
         optica: settings,
         pacienteNombre: pacienteNombre || undefined,
         fecha: fecha || undefined,
-        entradas,
-        resultados,
-        notas,
+        sections: seleccionados.map((item) => ({
+          calculatorTitle: item.calculatorTitle,
+          entradas: item.entradas,
+          resultados: item.resultados,
+          notas: item.notas,
+        })),
       });
+      clearItems();
       onClose();
     } finally {
       setGenerando(false);
@@ -73,7 +91,7 @@ export function ReportModal({
           <div>
             <h2 className="text-lg font-bold text-slate-900">Generar informe PDF</h2>
             <p className="mt-1 text-sm text-slate-500">
-              Estos datos de tu óptica se guardan en este navegador para los próximos informes.
+              Elige qué cálculos quieres incluir en este informe.
             </p>
           </div>
           <button
@@ -85,7 +103,42 @@ export function ReportModal({
           </button>
         </div>
 
-        <div className="mt-5 flex flex-col gap-4">
+        {items.length === 0 ? (
+          <p className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
+            Todavía no has añadido ningún cálculo. Ve a una calculadora, calcula un resultado y
+            pulsa &quot;Añadir al informe&quot;.
+          </p>
+        ) : (
+          <div className="mt-4 flex flex-col gap-2">
+            {items.map((item) => (
+              <label
+                key={item.id}
+                className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 p-3"
+              >
+                <span className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(item.id)}
+                    onChange={() => toggleSelected(item.id)}
+                    className="h-4 w-4 accent-violet-700"
+                  />
+                  <span className="text-sm font-medium text-slate-900">
+                    {item.calculatorTitle}
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleRemove(item.id)}
+                  className="text-xs text-slate-400 hover:text-red-600"
+                >
+                  Quitar
+                </button>
+              </label>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-5 flex flex-col gap-4 border-t border-slate-100 pt-5">
           <div>
             <p className="mb-1.5 text-sm font-medium text-slate-700">Logo de la óptica</p>
             <div className="flex items-center gap-3">
@@ -121,21 +174,21 @@ export function ReportModal({
           </div>
 
           <TextField
-            id="optica-nombre"
+            id="informe-optica-nombre"
             label="Nombre de la óptica"
             value={settings.nombre}
             onChange={(v) => setField("nombre", v)}
           />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <TextField
-              id="optica-telefono"
+              id="informe-optica-telefono"
               label="Teléfono (opcional)"
               value={settings.telefono}
               onChange={(v) => setField("telefono", v)}
               type="tel"
             />
             <TextField
-              id="optica-email"
+              id="informe-optica-email"
               label="Email (opcional)"
               value={settings.email}
               onChange={(v) => setField("email", v)}
@@ -143,20 +196,31 @@ export function ReportModal({
             />
           </div>
           <TextField
-            id="optica-direccion"
+            id="informe-optica-direccion"
             label="Dirección (opcional)"
             value={settings.direccion}
             onChange={(v) => setField("direccion", v)}
           />
+        </div>
 
-          <div className="border-t border-slate-100 pt-4">
-            <p className="mb-3 text-sm font-medium text-slate-700">
-              Datos del paciente (opcional, solo para este informe)
-            </p>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <TextField id="paciente-nombre" label="Nombre del paciente" value={pacienteNombre} onChange={setPacienteNombre} />
-              <TextField id="paciente-fecha" label="Fecha" value={fecha} onChange={setFecha} type="date" />
-            </div>
+        <div className="border-t border-slate-100 pt-4">
+          <p className="mb-3 text-sm font-medium text-slate-700">
+            Datos del paciente (opcional, solo para este informe)
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <TextField
+              id="informe-paciente-nombre"
+              label="Nombre del paciente"
+              value={pacienteNombre}
+              onChange={setPacienteNombre}
+            />
+            <TextField
+              id="informe-paciente-fecha"
+              label="Fecha"
+              value={fecha}
+              onChange={setFecha}
+              type="date"
+            />
           </div>
         </div>
 
@@ -164,8 +228,14 @@ export function ReportModal({
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
-          <Button type="button" onClick={handleGenerar} disabled={generando}>
-            {generando ? "Generando…" : "Descargar informe PDF"}
+          <Button
+            type="button"
+            onClick={handleGenerar}
+            disabled={generando || seleccionados.length === 0}
+          >
+            {generando
+              ? "Generando…"
+              : `Descargar informe PDF (${seleccionados.length})`}
           </Button>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { NumberField } from "@/components/ui/NumberField";
 import { SelectField } from "@/components/ui/SelectField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import {
   avisosLensThickness,
   calcularEspesorLente,
@@ -85,7 +85,7 @@ export function LensThicknessForm() {
             ]}
           />
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Espesor de lente"
               entradas={[
                 { label: "Potencia", value: `${formatSigned(potenciaN)} D` },

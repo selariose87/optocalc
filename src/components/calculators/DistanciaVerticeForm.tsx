@@ -5,7 +5,7 @@ import { NumberField } from "@/components/ui/NumberField";
 import { SelectField } from "@/components/ui/SelectField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import {
   avisosDistanciaVertice,
   compensarDistanciaVertice,
@@ -80,7 +80,7 @@ export function DistanciaVerticeForm() {
             ]}
           />
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Distancia al vértice"
               entradas={[
                 { label: "Potencia de partida", value: `${formatSigned(potenciaN)} D` },

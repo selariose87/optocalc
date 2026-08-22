@@ -1,10 +1,12 @@
 import { jsPDF } from "jspdf";
 import { DISCLAIMER, SITE_NAME } from "@/lib/constants";
-import type { ReportData } from "./types";
+import type { ReportData, ReportSection } from "./types";
 
 const PAGE_MARGIN = 18;
 const PAGE_WIDTH = 210;
+const PAGE_HEIGHT = 297;
 const CONTENT_WIDTH = PAGE_WIDTH - PAGE_MARGIN * 2;
+const FOOTER_RESERVE = 22;
 
 function detectImageFormat(dataUrl: string): "PNG" | "JPEG" {
   return dataUrl.startsWith("data:image/png") ? "PNG" : "JPEG";
@@ -24,6 +26,13 @@ function loadImageSize(
 export async function generarInformePdf(data: ReportData): Promise<jsPDF> {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   let y = PAGE_MARGIN;
+
+  function ensureSpace(needed: number) {
+    if (y + needed > PAGE_HEIGHT - FOOTER_RESERVE) {
+      doc.addPage();
+      y = PAGE_MARGIN;
+    }
+  }
 
   const logo = data.optica.logoDataUrl;
   let textStartX = PAGE_MARGIN;
@@ -63,7 +72,11 @@ export async function generarInformePdf(data: ReportData): Promise<jsPDF> {
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(15);
-  doc.text(`Informe: ${data.calculatorTitle}`, PAGE_MARGIN, y);
+  const titulo =
+    data.sections.length === 1
+      ? `Informe: ${data.sections[0].calculatorTitle}`
+      : "Informe de cálculos ópticos";
+  doc.text(titulo, PAGE_MARGIN, y);
   y += 8;
 
   doc.setFont("helvetica", "normal");
@@ -92,34 +105,70 @@ export async function generarInformePdf(data: ReportData): Promise<jsPDF> {
     y += 4;
   }
 
-  y = drawFieldSection(doc, "Datos introducidos", data.entradas, y);
-  y += 4;
-  y = drawFieldSection(doc, "Resultado", data.resultados, y, true);
+  data.sections.forEach((section, index) => {
+    y = drawSection(doc, section, y, ensureSpace, data.sections.length > 1);
+    if (index < data.sections.length - 1) y += 6;
+  });
 
-  if (data.notas && data.notas.length > 0) {
-    y += 6;
+  const pageCount = doc.getNumberOfPages();
+  for (let page = 1; page <= pageCount; page++) {
+    doc.setPage(page);
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const footerY = pageHeight - 18;
+    doc.setDrawColor(220);
+    doc.line(PAGE_MARGIN, footerY - 6, PAGE_MARGIN + CONTENT_WIDTH, footerY - 6);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(7.5);
+    doc.setTextColor(110);
+    const disclaimerLines = doc.splitTextToSize(DISCLAIMER, CONTENT_WIDTH);
+    doc.text(disclaimerLines, PAGE_MARGIN, footerY - 2);
+    doc.text(
+      `Generado con ${SITE_NAME} · Página ${page} de ${pageCount}`,
+      PAGE_MARGIN,
+      pageHeight - 8
+    );
+    doc.setTextColor(0);
+  }
+
+  return doc;
+}
+
+function drawSection(
+  doc: jsPDF,
+  section: ReportSection,
+  startY: number,
+  ensureSpace: (needed: number) => void,
+  showTitle: boolean
+): number {
+  let y = startY;
+
+  if (showTitle) {
+    ensureSpace(12);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(13);
+    doc.setTextColor(109, 40, 217); // violet-700
+    doc.text(section.calculatorTitle, PAGE_MARGIN, y);
+    doc.setTextColor(0);
+    y += 8;
+  }
+
+  y = drawFieldSection(doc, "Datos introducidos", section.entradas, y, false, ensureSpace);
+  y += 4;
+  y = drawFieldSection(doc, "Resultado", section.resultados, y, true, ensureSpace);
+
+  if (section.notas && section.notas.length > 0) {
+    y += 4;
     doc.setFont("helvetica", "italic");
     doc.setFontSize(9);
-    for (const nota of data.notas) {
+    for (const nota of section.notas) {
       const lines = doc.splitTextToSize(`• ${nota}`, CONTENT_WIDTH);
+      ensureSpace(lines.length * 4.5);
       doc.text(lines, PAGE_MARGIN, y);
       y += lines.length * 4.5;
     }
   }
 
-  const pageHeight = doc.internal.pageSize.getHeight();
-  const footerY = pageHeight - 18;
-  doc.setDrawColor(220);
-  doc.line(PAGE_MARGIN, footerY - 6, PAGE_MARGIN + CONTENT_WIDTH, footerY - 6);
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(7.5);
-  doc.setTextColor(110);
-  const disclaimerLines = doc.splitTextToSize(DISCLAIMER, CONTENT_WIDTH);
-  doc.text(disclaimerLines, PAGE_MARGIN, footerY - 2);
-  doc.text(`Generado con ${SITE_NAME}`, PAGE_MARGIN, pageHeight - 8);
-  doc.setTextColor(0);
-
-  return doc;
+  return y;
 }
 
 function drawFieldSection(
@@ -127,9 +176,11 @@ function drawFieldSection(
   titulo: string,
   campos: { label: string; value: string }[],
   startY: number,
-  destacar = false
+  destacar: boolean,
+  ensureSpace: (needed: number) => void
 ): number {
   let y = startY;
+  ensureSpace(12);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.text(titulo, PAGE_MARGIN, y);
@@ -139,12 +190,14 @@ function drawFieldSection(
   y += 6;
 
   for (const campo of campos) {
+    const rowHeight = destacar ? 8 : 6.5;
+    ensureSpace(rowHeight);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(destacar ? 12 : 10);
     doc.text(campo.label, PAGE_MARGIN, y);
     doc.setFont("helvetica", "bold");
     doc.text(campo.value, PAGE_MARGIN + 75, y);
-    y += destacar ? 8 : 6.5;
+    y += rowHeight;
   }
 
   return y;
@@ -152,7 +205,9 @@ function drawFieldSection(
 
 export async function descargarInformePdf(data: ReportData): Promise<void> {
   const doc = await generarInformePdf(data);
-  const slug = data.calculatorTitle
+  const base =
+    data.sections.length === 1 ? data.sections[0].calculatorTitle : "informe-koptikapp";
+  const slug = base
     .toLowerCase()
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")

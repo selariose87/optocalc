@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { NumberField } from "@/components/ui/NumberField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import { avisosBlankSize, calcularDiametroMinimoBloque } from "@/lib/calculators/blankSize";
 import { formatNumber } from "@/lib/format";
 
@@ -92,7 +92,7 @@ export function BlankSizeForm() {
             Pide siempre un bloque ligeramente mayor que el mínimo calculado, para compensar el margen de biselado y montaje.
           </p>
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Diámetro mínimo de bloque"
               entradas={[
                 { label: "Medida A de la montura", value: `${frameAN} mm` },

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { NumberField } from "@/components/ui/NumberField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import { avisosOverRefraction, calcularSobrerrefraccion } from "@/lib/calculators/overRefraction";
 import { formatSigned } from "@/lib/format";
 
@@ -72,7 +72,7 @@ export function OverRefractionForm() {
             ]}
           />
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Sobrerrefracción en lentilla"
               entradas={[
                 { label: "Potencia de la lentilla de prueba", value: `${formatSigned(potenciaPruebaN)} D` },

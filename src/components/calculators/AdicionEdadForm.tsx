@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { NumberField } from "@/components/ui/NumberField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import { avisosAdicionEdad, estimarAdicion } from "@/lib/calculators/adicionEdad";
 import { formatNumber } from "@/lib/format";
 
@@ -65,7 +65,7 @@ export function AdicionEdadForm() {
             ajustarse siempre con el examen visual en cerca del paciente.
           </p>
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Adición por edad"
               entradas={[{ label: "Edad del paciente", value: `${edadN} años` }]}
               resultados={

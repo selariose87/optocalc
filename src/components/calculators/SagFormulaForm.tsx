@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { NumberField } from "@/components/ui/NumberField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import { avisosSagFormula, calcularSagita } from "@/lib/calculators/sagFormula";
 import { formatNumber } from "@/lib/format";
 
@@ -47,7 +47,7 @@ export function SagFormulaForm() {
         <>
           <ResultCard rows={[{ label: "Sagita (flecha)", value: `${formatNumber(resultado.sagita)} mm` }]} />
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Fórmula de la sagita"
               entradas={[
                 { label: "Radio de curvatura", value: `${radioN} mm` },

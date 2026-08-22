@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { NumberField } from "@/components/ui/NumberField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import {
   avisosSphericalEquivalent,
   calcularEquivalenteEsferico,
@@ -46,7 +46,7 @@ export function SphericalEquivalentForm() {
             rows={[{ label: "Equivalente esférico", value: `${formatSigned(resultado.equivalenteEsferico)} D` }]}
           />
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Equivalente esférico"
               entradas={[
                 { label: "Esfera", value: `${formatSigned(esferaN)} D` },

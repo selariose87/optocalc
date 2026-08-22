@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { NumberField } from "@/components/ui/NumberField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import { avisosPrentice, calcularPrentice } from "@/lib/calculators/reglaPrentice";
 import { formatNumber, formatSigned } from "@/lib/format";
 
@@ -57,7 +57,7 @@ export function ReglaPrenticeForm() {
             mismo lado del descentramiento, y en lentes negativas hacia el lado contrario.
           </p>
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Regla de Prentice"
               entradas={[
                 { label: "Descentramiento", value: `${descentramientoN} mm` },

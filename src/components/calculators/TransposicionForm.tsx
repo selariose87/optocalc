@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { NumberField } from "@/components/ui/NumberField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import { avisosTransposicion, transponer } from "@/lib/calculators/transposicion";
 import { formatSigned } from "@/lib/format";
 
@@ -53,7 +53,7 @@ export function TransposicionForm() {
             ]}
           />
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Transposición de graduación"
               entradas={[
                 { label: "Esfera original", value: `${formatSigned(esferaN)} D` },

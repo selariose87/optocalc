@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { NumberField } from "@/components/ui/NumberField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import {
   avisosAddPowerWorkingDistance,
   calcularAdicionPorDistancia,
@@ -64,7 +64,7 @@ export function AddPowerWorkingDistanceForm() {
             trabajo en cerca cómodo. Ajusta siempre el valor final con el examen subjetivo en cerca.
           </p>
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Adición por distancia de trabajo"
               entradas={[
                 { label: "Distancia de trabajo", value: `${distanciaN} cm` },

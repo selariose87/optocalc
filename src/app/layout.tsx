@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { InformeProvider } from "@/lib/informe/InformeContext";
+import { InformeTray } from "@/components/informe/InformeTray";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
@@ -37,9 +39,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white text-slate-900">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <InformeProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <InformeTray />
+        </InformeProvider>
       </body>
     </html>
   );

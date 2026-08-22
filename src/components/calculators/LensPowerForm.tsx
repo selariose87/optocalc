@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { NumberField } from "@/components/ui/NumberField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import { avisosLensPower, calcularPotenciaLente } from "@/lib/calculators/lensPower";
 import { formatSigned } from "@/lib/format";
 
@@ -59,7 +59,7 @@ export function LensPowerForm() {
             rows={[{ label: "Potencia total", value: `${formatSigned(resultado.potenciaTotal)} D` }]}
           />
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Potencia de la lente"
               entradas={[
                 { label: "Curva frontal", value: `${formatSigned(curvaFrontalN)} D` },

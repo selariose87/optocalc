@@ -5,7 +5,7 @@ import { NumberField } from "@/components/ui/NumberField";
 import { SelectField } from "@/components/ui/SelectField";
 import { ResultCard } from "@/components/calculators/ResultCard";
 import { WarningList } from "@/components/calculators/WarningList";
-import { ReportButton } from "@/components/calculators/ReportButton";
+import { AddToInformeButton } from "@/components/informe/AddToInformeButton";
 import {
   avisosPrismResolver,
   BaseHorizontal,
@@ -81,7 +81,7 @@ export function PrismResolverForm() {
             ]}
           />
           <div>
-            <ReportButton
+            <AddToInformeButton
               calculatorTitle="Resolución de prisma"
               entradas={[
                 { label: "Prisma horizontal", value: `${formatNumber(horizontalN)} Δ ${baseHorizontal}` },
