@@ -6,7 +6,7 @@ export interface OpticaSettings {
   logoDataUrl: string | null;
 }
 
-export const OPTICA_SETTINGS_KEY = "optocalc:optica-settings";
+export const OPTICA_SETTINGS_KEY = "koptikapp:optica-settings";
 
 export const EMPTY_OPTICA_SETTINGS: OpticaSettings = {
   nombre: "",

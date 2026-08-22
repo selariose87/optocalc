@@ -1,4 +1,4 @@
-export const SITE_NAME = "OptoCalc";
+export const SITE_NAME = "KoptikApp";
 
 export const SITE_DESCRIPTION =
   "Calculadoras profesionales en español para optometristas y ópticos: transposición de graduación, distancia al vértice, regla de Prentice, potencia de lente y más. Genera informes en PDF con el logo de tu óptica.";

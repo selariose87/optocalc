@@ -15,7 +15,7 @@ const CATEGORY_ORDER: CalculatorCategory[] = [
 export const metadata: Metadata = {
   title: "Todas las calculadoras",
   description:
-    "Todas las calculadoras profesionales de OptoCalc para optometristas y ópticos, agrupadas por categoría: prisma, potencia de lente, medidas, prescripción y lentes de contacto.",
+    "Todas las calculadoras profesionales de KoptikApp para optometristas y ópticos, agrupadas por categoría: prisma, potencia de lente, medidas, prescripción y lentes de contacto.",
 };
 
 export default function CalculadorasPage() {

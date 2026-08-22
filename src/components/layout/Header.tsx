@@ -9,7 +9,7 @@ export function Header() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-700 text-sm font-bold text-white">
-              O
+              K
             </span>
             <span className="text-lg font-bold text-slate-900">{SITE_NAME}</span>
           </Link>
