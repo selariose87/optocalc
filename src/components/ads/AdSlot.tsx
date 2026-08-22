@@ -5,11 +5,16 @@ interface AdSlotProps {
   className?: string;
 }
 
+// Tamaños alineados con los formatos estándar de IAB / Google AdSense.
+// "header" usa un ancho fluido: al conectar AdSense, ese <ins> debe llevar
+// data-ad-format="auto" data-full-width-responsive="true" para que el
+// anuncio real se adapte al ancho disponible en vez de un tamaño fijo.
+// El resto de variantes son tamaños fijos (fit garantizado por el layout).
 const VARIANT_CLASSES: Record<AdSlotVariant, string> = {
-  header: "h-[90px] w-full max-w-[728px]",
-  sidebar: "h-[600px] w-full max-w-[300px]",
-  "in-content": "h-[250px] w-full max-w-[336px]",
-  "mobile-banner": "h-[100px] w-full",
+  header: "h-[50px] sm:h-[90px] w-full max-w-[728px]",
+  sidebar: "h-[600px] w-[300px]",
+  "in-content": "h-[250px] w-[300px]",
+  "mobile-banner": "h-[50px] w-[320px]",
 };
 
 const VARIANT_LABEL: Record<AdSlotVariant, string> = {
