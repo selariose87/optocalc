@@ -10,12 +10,13 @@ const CATEGORY_ORDER: CalculatorCategory[] = [
   "medidas",
   "prescripcion",
   "lentes-contacto",
+  "cirugia-refractiva",
 ];
 
 export const metadata: Metadata = {
   title: "Todas las calculadoras",
   description:
-    "Todas las calculadoras profesionales de KoptikApp para optometristas y ópticos, agrupadas por categoría: prisma, potencia de lente, medidas, prescripción y lentes de contacto.",
+    "Todas las calculadoras profesionales de KoptikApp para optometristas y ópticos, agrupadas por categoría: prisma, potencia de lente, medidas, prescripción, lentes de contacto y cirugía refractiva.",
 };
 
 export default function CalculadorasPage() {
@@ -33,7 +34,7 @@ export default function CalculadorasPage() {
         if (items.length === 0) return null;
 
         return (
-          <section key={category} className="flex flex-col gap-4">
+          <section key={category} id={category} className="flex scroll-mt-20 flex-col gap-4">
             <h2 className="text-lg font-semibold text-slate-900">{CATEGORY_LABELS[category]}</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {items.map((c) => (

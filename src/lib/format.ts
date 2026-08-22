@@ -1,5 +1,10 @@
 export function round2(value: number): number {
-  return Math.round((value + Number.EPSILON) * 100) / 100;
+  return roundTo(value, 2);
+}
+
+export function roundTo(value: number, decimals: number): number {
+  const factor = 10 ** decimals;
+  return Math.round((value + Number.EPSILON) * factor) / factor;
 }
 
 export function formatSigned(value: number, decimals = 2): string {

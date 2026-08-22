@@ -160,6 +160,96 @@ export const CALCULATORS: CalculatorMeta[] = [
     keywords: ["curva base RGP", "queratometría", "lentilla rígida permeable al gas"],
     category: "lentes-contacto",
   },
+  {
+    slug: "suma-prismas",
+    title: "Suma de prismas",
+    shortDescription:
+      "Combina dos prismas (horizontal y vertical) en un único prisma resultante.",
+    metaDescription:
+      "Calculadora de suma de prismas: combina dos prismas con sus componentes horizontal y vertical en un prisma resultante único.",
+    keywords: ["suma de prismas", "combinar prismas", "prisma resultante"],
+    category: "prisma",
+  },
+  {
+    slug: "dioptrias-milimetros",
+    title: "Dioptrías a milímetros",
+    shortDescription:
+      "Convierte entre potencia en dioptrías y distancia focal en milímetros.",
+    metaDescription:
+      "Calculadora de conversión entre dioptrías y milímetros: obtén la distancia focal a partir de la potencia, o al revés.",
+    keywords: ["dioptrías a milímetros", "distancia focal", "conversión dioptrías"],
+    category: "potencia-lente",
+  },
+  {
+    slug: "conversion-av",
+    title: "Conversión de agudeza visual",
+    shortDescription:
+      "Convierte la agudeza visual entre Snellen, decimal y logMAR.",
+    metaDescription:
+      "Calculadora de conversión de agudeza visual entre notación Snellen (pies y metros), decimal y logMAR.",
+    keywords: ["conversión agudeza visual", "snellen a decimal", "logMAR"],
+    category: "medidas",
+  },
+  {
+    slug: "esferocilindrica-vectorial",
+    title: "Esferocilíndrica a vectorial",
+    shortDescription:
+      "Convierte esfera, cilindro y eje a los vectores de potencia M, J0 y J45.",
+    metaDescription:
+      "Calculadora de conversión de graduación esferocilíndrica a notación vectorial (método de Thibos): M, J0 y J45.",
+    keywords: ["vectores de potencia", "M J0 J45", "método de Thibos"],
+    category: "prescripcion",
+  },
+  {
+    slug: "giro-lente-contacto",
+    title: "Giro de lente de contacto tórica",
+    shortDescription:
+      "Calcula el nuevo eje a pedir según la rotación observada de una lentilla tórica (regla LARS).",
+    metaDescription:
+      "Calculadora de giro de lente de contacto tórica: aplica la regla LARS para obtener el nuevo eje a pedir según la rotación observada.",
+    keywords: ["giro lente de contacto", "regla LARS", "rotación lentilla tórica"],
+    category: "lentes-contacto",
+  },
+  {
+    slug: "profundidad-ablacion",
+    title: "Profundidad de ablación",
+    shortDescription:
+      "Estima la profundidad de ablación corneal en cirugía refractiva miópica (fórmula de Munnerlyn).",
+    metaDescription:
+      "Calculadora de profundidad de ablación (fórmula de Munnerlyn): estima el espesor corneal ablacionado en LASIK/PRK a partir de la corrección y la zona óptica.",
+    keywords: ["profundidad de ablación", "fórmula de Munnerlyn", "LASIK PRK"],
+    category: "cirugia-refractiva",
+  },
+  {
+    slug: "astigmatismo-inducido-sia",
+    title: "Astigmatismo inducido quirúrgicamente (SIA)",
+    shortDescription:
+      "Calcula el astigmatismo inducido por la cirugía a partir del cilindro pre y postoperatorio.",
+    metaDescription:
+      "Calculadora de SIA (Surgically Induced Astigmatism) por método vectorial: obtén la magnitud y el eje del astigmatismo inducido quirúrgicamente.",
+    keywords: ["astigmatismo inducido quirúrgicamente", "SIA", "método vectorial Alpins"],
+    category: "cirugia-refractiva",
+  },
+  {
+    slug: "rotacion-lio-torica-faquica",
+    title: "Rotación de LIO tórica fáquica",
+    shortDescription:
+      "Estima el astigmatismo residual inducido por la rotación de un LIO tórico fáquico.",
+    metaDescription:
+      "Calculadora de rotación de LIO tórica fáquica: estima el astigmatismo residual y el porcentaje de cilindro perdido según los grados de desalineación.",
+    keywords: ["rotación LIO tórica fáquica", "ICL tórica", "astigmatismo residual"],
+    category: "cirugia-refractiva",
+  },
+  {
+    slug: "rotacion-lio-torica-pseudofaquica",
+    title: "Rotación de LIO tórica pseudofáquica",
+    shortDescription:
+      "Estima el astigmatismo residual inducido por la rotación de un LIO tórico pseudofáquico.",
+    metaDescription:
+      "Calculadora de rotación de LIO tórica pseudofáquica: estima el astigmatismo residual y el porcentaje de cilindro perdido según los grados de desalineación.",
+    keywords: ["rotación LIO tórica pseudofáquica", "LIO tórico cataratas", "astigmatismo residual"],
+    category: "cirugia-refractiva",
+  },
 ];
 
 export function getCalculatorMeta(slug: string): CalculatorMeta | undefined {

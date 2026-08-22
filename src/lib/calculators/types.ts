@@ -3,7 +3,8 @@ export type CalculatorCategory =
   | "potencia-lente"
   | "medidas"
   | "prescripcion"
-  | "lentes-contacto";
+  | "lentes-contacto"
+  | "cirugia-refractiva";
 
 export const CATEGORY_LABELS: Record<CalculatorCategory, string> = {
   prisma: "Prisma",
@@ -11,6 +12,7 @@ export const CATEGORY_LABELS: Record<CalculatorCategory, string> = {
   medidas: "Medidas",
   prescripcion: "Prescripción",
   "lentes-contacto": "Lentes de contacto",
+  "cirugia-refractiva": "Cirugía refractiva",
 };
 
 export interface CalculatorMeta {

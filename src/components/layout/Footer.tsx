@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { DISCLAIMER, SITE_NAME } from "@/lib/constants";
-import { CALCULATORS } from "@/lib/calculators/registry";
 import { CATEGORY_LABELS, CalculatorCategory } from "@/lib/calculators/types";
 
 const CATEGORY_ORDER: CalculatorCategory[] = [
@@ -9,6 +8,7 @@ const CATEGORY_ORDER: CalculatorCategory[] = [
   "medidas",
   "prescripcion",
   "lentes-contacto",
+  "cirugia-refractiva",
 ];
 
 export function Footer() {
@@ -22,24 +22,27 @@ export function Footer() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
-          {CATEGORY_ORDER.map((category) => (
-            <div key={category}>
-              <p className="text-sm font-semibold text-slate-900">{CATEGORY_LABELS[category]}</p>
-              <ul className="mt-1 flex flex-col gap-1">
-                {CALCULATORS.filter((c) => c.category === category).map((c) => (
-                  <li key={c.slug}>
-                    <Link
-                      href={`/calculadoras/${c.slug}`}
-                      className="text-sm text-slate-500 hover:text-violet-700"
-                    >
-                      {c.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-x-10">
+          <div>
+            <p className="text-sm font-semibold text-slate-900">Calculadoras por categoría</p>
+            <ul className="mt-1 flex flex-col gap-1">
+              {CATEGORY_ORDER.map((category) => (
+                <li key={category}>
+                  <Link
+                    href={`/calculadoras#${category}`}
+                    className="text-sm text-slate-500 hover:text-violet-700"
+                  >
+                    {CATEGORY_LABELS[category]}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/calculadoras" className="text-sm font-medium text-violet-700 hover:text-violet-800">
+                  Ver todas →
+                </Link>
+              </li>
+            </ul>
+          </div>
           <div>
             <p className="text-sm font-semibold text-slate-900">Ajustes</p>
             <ul className="mt-1 flex flex-col gap-1">
