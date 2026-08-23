@@ -18,6 +18,9 @@ export function Header() {
             <Link href="/calculadoras" className="hover:text-violet-700">
               Todas las calculadoras
             </Link>
+            <Link href="/auditoria-web" className="hover:text-violet-700">
+              Audita tu web gratis
+            </Link>
             <Link href="/ajustes" className="hover:text-violet-700">
               Mi óptica
             </Link>

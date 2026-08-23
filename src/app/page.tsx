@@ -46,6 +46,24 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="flex flex-col items-start gap-3 rounded-2xl border border-violet-200 bg-violet-50 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-lg font-semibold text-slate-900">
+            ¿Sabes si tu web aparece bien en Google?
+          </h2>
+          <p className="mt-1 max-w-xl text-sm text-slate-600">
+            Audita gratis la web de tu óptica: título, velocidad, adaptación a móvil y SEO local.
+            Recibe el informe al instante.
+          </p>
+        </div>
+        <Link
+          href="/auditoria-web"
+          className="shrink-0 rounded-lg bg-violet-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-violet-800"
+        >
+          Auditar mi web gratis
+        </Link>
+      </section>
+
       <AdSlot variant="in-content" className="mx-auto" />
 
       <section className="flex flex-col gap-3 rounded-xl bg-slate-50 p-6">
