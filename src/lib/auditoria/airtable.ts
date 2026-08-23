@@ -23,6 +23,8 @@ function escaparFormula(valor: string): string {
 // últimas 24 horas, para limitar el abuso de la cuota gratuita de PageSpeed.
 // Si Airtable no está configurado, no se puede limitar y se deja pasar
 // (nunca debe bloquear el uso solo por no tener credenciales).
+// {Fecha} es un campo "Fecha de creación" (de solo lectura, lo rellena
+// Airtable automáticamente), por eso no se envía al crear el registro.
 export async function contarAnalisisRecientes(email: string, ip: string): Promise<number> {
   const cfg = config();
   if (!cfg) return 0;
@@ -43,10 +45,14 @@ export async function contarAnalisisRecientes(email: string, ip: string): Promis
       headers: { Authorization: `Bearer ${cfg.apiKey}` },
       cache: "no-store",
     });
-    if (!res.ok) return 0;
+    if (!res.ok) {
+      console.error("contarAnalisisRecientes: Airtable respondió", res.status, await res.text());
+      return 0;
+    }
     const data = await res.json();
     return Array.isArray(data.records) ? data.records.length : 0;
-  } catch {
+  } catch (error) {
+    console.error("contarAnalisisRecientes: fetch falló", error);
     return 0;
   }
 }
@@ -58,7 +64,7 @@ export async function guardarLead(lead: LeadAuditoria): Promise<void> {
   const endpoint = `https://api.airtable.com/v0/${cfg.baseId}/${encodeURIComponent(cfg.tabla)}`;
 
   try {
-    await fetch(endpoint, {
+    const res = await fetch(endpoint, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${cfg.apiKey}`,
@@ -72,11 +78,14 @@ export async function guardarLead(lead: LeadAuditoria): Promise<void> {
           URL: lead.url,
           Puntuacion: lead.puntuacion,
           IP: lead.ip,
-          Fecha: new Date().toISOString(),
         },
       }),
     });
-  } catch {
+    if (!res.ok) {
+      console.error("guardarLead: Airtable respondió", res.status, await res.text());
+    }
+  } catch (error) {
+    console.error("guardarLead: fetch falló", error);
     // Si falla el guardado del lead, no debe romper la generación del informe.
   }
 }
